@@ -1,20 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly'
+import { Provider } from 'react-redux'
+import AppNavigator from './navigation/AppNavigator'
+import blogReducer from './store/reducers/blog'
+import thunk from 'redux-thunk'
+
+const rootReducer = combineReducers({
+  blog: blogReducer,
+})
+
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <Provider store={store}>
+      <AppNavigator />
+    </Provider>
+  )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
